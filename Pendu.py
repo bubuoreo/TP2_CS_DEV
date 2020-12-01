@@ -4,21 +4,20 @@
 # subject : Faire un pendu sur console avec un choix de mot dans un fichier.
 # TODO :
 # - faire une fonction qui, à la place de demander à un autre utilisateur d'entrer un mot, va en prendre un dans un fichier
-# - 
 
 
 class Mot:
     def __init__(self, word):
         mot = word.lower()
-        self.ortho = mot
-        self.taille = len(self.ortho)
-        self.essais = []
-        self.fautes = 0
+        self.__ortho = mot
+        self.__taille = len(self.__ortho)
+        self.__essais = []
+        self.__fautes = 0
 
     def mot_cache(self):
         cache = ''
-        for lettre in self.ortho:
-            if lettre in self.essais or lettre == '-' or lettre == ' ' or lettre == "'":
+        for lettre in self.__ortho:
+            if lettre in self.__essais or lettre == '-' or lettre == ' ' or lettre == "'":
                 print(lettre, end='')
                 cache += lettre
             else:
@@ -26,8 +25,8 @@ class Mot:
                 cache += "_"
         print()
         print()
-        print(self.essais)
-        if cache == self.ortho:
+        print(self.__essais)
+        if cache == self.__ortho:
             return False
         else:
             return True
@@ -36,15 +35,15 @@ class Mot:
         print("Quelle lettre pense-tu qu'il y ai dans le mot que ton pote a choisi ?")
         lettre = input()
         print()
-        if lettre not in self.ortho:
-            self.fautes += 1
-        if lettre not in self.essais:
-            self.essais.append(lettre)
+        if lettre not in self.__ortho:
+            self.__fautes += 1
+        if lettre not in self.__essais:
+            self.__essais.append(lettre)
 
     def pendu(self):
-        if self.fautes == 0:
+        if self.__fautes == 0:
             print("")
-        elif self.fautes == 1:
+        elif self.__fautes == 1:
             print("")
             print("    |")
             print("    |")
@@ -54,7 +53,7 @@ class Mot:
             print("    |")
             print("    |")
             print("___/|\\___")
-        elif self.fautes == 2:
+        elif self.__fautes == 2:
             print("     _________")
             print("    |/       |")
             print("    |        |")
@@ -64,7 +63,7 @@ class Mot:
             print("    |")
             print("    |")
             print("___/|\\___")
-        elif self.fautes == 3:
+        elif self.__fautes == 3:
             print("     _________")
             print("    |/       |")
             print("    |        |")
@@ -74,7 +73,7 @@ class Mot:
             print("    |")
             print("    |")
             print("___/|\\___")
-        elif self.fautes == 4:
+        elif self.__fautes == 4:
             print("     _________")
             print("    |/       |")
             print("    |        |")
@@ -84,7 +83,7 @@ class Mot:
             print("    |")
             print("    |")
             print("___/|\\___")
-        elif self.fautes == 5:
+        elif self.__fautes == 5:
             print("     _________")
             print("    |/       |")
             print("    |        |")
@@ -94,7 +93,7 @@ class Mot:
             print("    |       / \\")
             print("    |")
             print("___/|\\___")
-        elif self.fautes == 6:
+        elif self.__fautes == 6:
             print("     _________")
             print("    |/       |")
             print("    |        |")
@@ -105,7 +104,7 @@ class Mot:
             print("    |")
             print("___/|\\___")
             print()
-            print(self.ortho)
+            print(self.__ortho)
             print()
             print("Eh, t'as perdu.")
             return False
