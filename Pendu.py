@@ -4,12 +4,12 @@
 # subject : Faire un pendu sur console avec un choix de mot dans un fichier.
 # TODO :
 
-
+# -*- coding: latin-1 -*-
 import random
 
 class Mot:
     def __init__(self):
-        with open("Dico.txt","r",encoding="latin-1") as Dico :
+        with open("Dico.txt","r") as Dico :
             liste = Dico.readlines()
             i = random.randint(0,len(liste)-1)
             mot = liste[i]
