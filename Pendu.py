@@ -35,6 +35,7 @@ class Mot:
         while True:
             choice = input()
             if choice == 'O':
+                print()
                 Mot()
                 break
             if choice == 'N':
@@ -64,10 +65,14 @@ class Mot:
         print("trouve une lettre du mot")
         lettre = input()
         print()
-        if lettre not in self.__ortho:
-            self.__fautes += 1
+        if lettre in self.__essais:
+            print("Vous avez déja proposé cette lettre. Veuillez réessayer.")
+            self.proposition()
         if lettre not in self.__essais:
             self.__essais.append(lettre)
+        if lettre not in self.__ortho:
+            self.__fautes += 1
+
 
     def pendu(self):
         if self.__fautes == 0:
@@ -155,5 +160,7 @@ class Mot:
 
 
 print("Bonjour et bienvenu dans ce programme modélsant un pendu")
+print()
+print()
 mot_a_deviner = Mot()
 
