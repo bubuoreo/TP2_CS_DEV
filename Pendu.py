@@ -5,10 +5,20 @@
 # TODO :
 # - faire une fonction qui, à la place de demander à un autre utilisateur d'entrer un mot, va en prendre un dans un fichier
 
+import random
+import tkinter
+
 
 class Mot:
-    def __init__(self, word):
-        mot = word.lower()
+    def __init__(self):
+        with open("Dico.txt","r") as Dico :
+            liste = Dico.readlines()
+            i = random.randint(0,len(liste)-1)
+            print(i)
+            print(liste)
+            mot = liste[i]
+            mot = mot.rstrip("\n")
+        mot = mot.lower()
         self.__ortho = mot
         self.__taille = len(self.__ortho)
         self.__essais = []
@@ -32,7 +42,7 @@ class Mot:
             return True
 
     def proposition(self):
-        print("Quelle lettre pense-tu qu'il y ai dans le mot que ton pote a choisi ?")
+        print("trouve une lettre du mot")
         lettre = input()
         print()
         if lettre not in self.__ortho:
@@ -125,16 +135,10 @@ class Mot:
         return True
 
 
-print()
-print()
 print("Bonjour et bienvenu dans ce programme modélsant un pendu")
-print("Choisissez un joueur qui devra me donner un mot/phrase ou mot composé, pour que je le fasse deviner à l'autre")
-print("Ton message ne doit juste pas contenir de chiffres et pas d'accents")
 
 winning = True
-mot_a_deviner = Mot(input("Quel est ton expression ? "))
-for i in range(50):
-    print()
+mot_a_deviner = Mot()
 
 while winning:
     winning = mot_a_deviner.mot_cache()
@@ -142,3 +146,4 @@ while winning:
         break
     mot_a_deviner.proposition()
     winning = mot_a_deviner.pendu()
+
