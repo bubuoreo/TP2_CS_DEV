@@ -14,8 +14,6 @@ class Mot:
         with open("Dico.txt","r") as Dico :
             liste = Dico.readlines()
             i = random.randint(0,len(liste)-1)
-            print(i)
-            print(liste)
             mot = liste[i]
             mot = mot.rstrip("\n")
         mot = mot.lower()
@@ -23,6 +21,16 @@ class Mot:
         self.__taille = len(self.__ortho)
         self.__essais = []
         self.__fautes = 0
+        self.__winning = True
+        self.play()
+
+    def play(self):
+        while self.__winning:
+            self.__winning = self.mot_cache()
+            if not self.__winning:
+                break
+            self.proposition()
+            self.__winning = self.pendu()
 
     def mot_cache(self):
         cache = ''
@@ -37,6 +45,7 @@ class Mot:
         print()
         print(self.__essais)
         if cache == self.__ortho:
+            print("Bravo, tu as gagné")
             return False
         else:
             return True
@@ -136,14 +145,5 @@ class Mot:
 
 
 print("Bonjour et bienvenu dans ce programme modélsant un pendu")
-
-winning = True
 mot_a_deviner = Mot()
-
-while winning:
-    winning = mot_a_deviner.mot_cache()
-    if not winning:
-        break
-    mot_a_deviner.proposition()
-    winning = mot_a_deviner.pendu()
 
