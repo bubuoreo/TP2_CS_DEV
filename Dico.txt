@@ -1,0 +1,10 @@
+ananas
+abricot
+banane
+melon
+poire
+pomme
+pasteque
+orange
+raisin
+tomate
