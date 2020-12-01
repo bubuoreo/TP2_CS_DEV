@@ -1,6 +1,7 @@
 ananas
 abricot
 banane
+citron
 melon
 poire
 pomme
