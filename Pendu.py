@@ -3,14 +3,13 @@
 # 01/12/2020
 # subject : Faire un pendu sur console avec un choix de mot dans un fichier.
 # TODO :
-# - faire une fonction qui, à la place de demander à un autre utilisateur d'entrer un mot, va en prendre un dans un fichier
+
 
 import random
 
-
 class Mot:
     def __init__(self):
-        with open("Dico.txt","r") as Dico :
+        with open("Dico.txt","r",encoding="latin-1") as Dico :
             liste = Dico.readlines()
             i = random.randint(0,len(liste)-1)
             mot = liste[i]
