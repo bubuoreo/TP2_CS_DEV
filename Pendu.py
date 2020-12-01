@@ -6,7 +6,6 @@
 # - faire une fonction qui, à la place de demander à un autre utilisateur d'entrer un mot, va en prendre un dans un fichier
 
 import random
-import tkinter
 
 
 class Mot:
@@ -22,6 +21,7 @@ class Mot:
         self.__essais = []
         self.__fautes = 0
         self.__winning = True
+        self.__essais.append(self.__ortho[0])
         self.play()
 
     def play(self):
@@ -31,6 +31,16 @@ class Mot:
                 break
             self.proposition()
             self.__winning = self.pendu()
+        print("Voulez-vous rejouer ? 'O' = Oui, 'N'= Non.")
+        while True:
+            choice = input()
+            if choice == 'O':
+                Mot()
+                break
+            if choice == 'N':
+                break
+            else:
+                print("Je n'ai pas compris votre demande, veuillez réessayer.")
 
     def mot_cache(self):
         cache = ''
