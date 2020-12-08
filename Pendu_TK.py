@@ -7,7 +7,7 @@
 # - 
 
 import random
-from tkinter import Tk, Label, Button, Entry
+from tkinter import Tk, Label, Button, Entry, StringVar
 
 
 class Mot():
@@ -48,7 +48,7 @@ class Mot():
     def motCache(self):
         cache = ''
         for lettre in self.__ortho:
-            if lettre in self.__essais or lettre == '-' or lettre == ' ' or lettre == "'":
+            if lettre in self.__essais:
                 print(' ' + lettre, end='')
                 cache += lettre
             else:
@@ -164,10 +164,12 @@ class Mot():
 class GUI(Mot):
     def __init__(self):
         self.__mainSize = "400x300"
-        self.__gameSize = "200x100"
-        self.__replaySize = "500x500"
+        self.__gameSize = "400x300"
+        self.__motADeviner = Mot()
         self.__winning = True
         self.__essais = []
+        self.__fautes = 0
+        self.__auth = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z','é','è','î','ê','û','ë','ô',]
 
     def playMain(self):
         self.__main = Tk()
@@ -176,55 +178,58 @@ class GUI(Mot):
         welcomeLabel.pack()
         buttonQuit1 = Button(self.__main, text = "Quitter", fg = "red", command = self.__main.destroy)
         buttonQuit1.pack()
-        buttonPlay = Button(self.__main, text="Jouer", command = lambda:[self.__main.destroy(),self.playReplay(),]) # Changer cette fct par la fct jeu
+        buttonPlay = Button(self.__main, text="Jouer", command = lambda:[self.__main.destroy(),self.playGame()])
         buttonPlay.pack()
         
         self.__main.mainloop()
     
-    def playGame(self,mot):
+    def Verification(self):
+        if self.__champ1 in self.__auth:
+            if self.__champ1 not in self.__essais:
+                self.__essais.append(self.__champ1)
+            if self.__champ1 not in self.__motADeviner.__ortho:
+                self.__fautes += 1
+        else:
+            errorMsg = Label(self.__game, text = "Vous ne devez entrer qu'une seule lettre")
+            errorMsg.pack()
+
+
+    def playGame(self):
         self.__game = Tk()
         self.__game.geometry(self.__gameSize)
+        
         while self.__winning:
-            self.__winning,self.__cache,self.__essais = mot.motCache()
+            self.__winning,self.__cache,self.__essais = self.__motADeviner.motCache()
+            print('1')
             motTiret = Label(self.__game, text = self.__cache)
             motTiret.pack()
+            print('2')
             if not self.__winning:
+                victoryMsg = Label(self.__game, text = "Bravo vous avez gagné")
+                victoryMsg.pack()
                 break
-            lettre = Entry(self.__game, fg ="black")
-            while True:
-                if lenght(lettre) == 1:
-                    self.__essais.append(lettre)
-                    
-                else:
-                    errorMsg = Label(self.__game, text ="Vous ne devez entrer qu'une seule lettre")
-                    errorMsg.pack()
+
+            self.__champ1 = Entry(self.__game, fg ="black")
+            self.__champ1.pack()
+            tryButton = Button(self.__game, text = "Proposer", fg = "green", command = self.Verification())
+            tryButton.pack()
             
+            listeMots = Label(self.__game,text = self.__essais)
+            listeMots.pack()
+            if self.__fautes == 8:
+                losingMsg = Label(self.__game, text = "vous avez perdu")
+                losingMsg.pack()
+                break
+            self.__game.mainloop()
 
-
-
-
-
-
-
-
-
-
-
-        tryButton = Button(self.__game, text = "Proposer", fg = "green")# command = "FONCTION") # une fonction à appeler qui fera le jeu
-        tryButton.pack()
-
-    def playReplay(self):
-        self.__replay = Tk()
-        self.__replay.geometry(self.__replaySize)
-        replayButton = Button(self.__replay, text = "rejouer") #command = self.playGame) à faire apres que la fonction jeu soit ok
-        replayButton.pack()
-        buttonQuit3 = Button(self.__replay, text = "Quitter", fg = "red", command = self.__replay.destroy)
-        buttonQuit3.pack()
+            
         
-        self.__replay.mainloop()
+        replayButton = Button(self.__game, text = "rejouer", command = self.playGame)
+        replayButton.pack()
+        buttonQuit3 = Button(self.__game, text = "Quitter", fg = "red", command = self.playGame)
+        buttonQuit3.pack()
 
 
-motADeviner = Mot()
 jeu = GUI()
 jeu.playMain()
 
