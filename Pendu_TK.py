@@ -161,16 +161,40 @@ class Mot:
         return True
 
 
-mw = Tk()
-labelHello = Label(mw, text = "Hello World !", fg = "blue")
-labelHello.pack()
+class GUI(Mot):
+    def __init__(self):
+        self.__mainSize = "400x300"
+        self.__gameSize = "200x100"
+        self.__replaySize = "500x500"
 
-buttonQuit = Button(mw, text = "Quitter", fg = "red", command = mw.destroy)
-buttonQuit.pack()
+    def playMain(self):
+        self.__main = Tk()
+        buttonQuit1 = Button(self.__main, text = "Quitter", fg = "red", command = self.__main.destroy)
+        buttonQuit1.pack()
+        buttonPlay = Button(self.__main, text="Jouer", command = self.playGame()) # une fonction à appeler qui LANCERA le jeu
+        buttonPlay.pack()
+        welcomeLabel = Label(self.__main,text = "Bonjour et bienvenu dans un jeu de pendu", fg = "blue")
+        welcomeLabel.pack()
+    
+    # def playGame(self):
+        # tryButton = Button(self.__game, text = "Proposer", fg = "green", command = "FONCTION") # une fonction à appeler qui fera le jeu
 
-mw.mainloop()
 
-print("Bonjour et bienvenu dans ce programme modélsant un pendu")
-print()
-print()
-mot_a_deviner = Mot()
+    def playReplay(self):
+        self.__replay = Tk()
+        buttonQuit3 = Button(self.__replay, text = "Quitter", fg = "red", command = self.__replay.destroy)
+        buttonQuit3.pack()
+        replayButton = Button(self.__replay, text = "rejouer", command = self.playGame)
+        replayButton.pack()
+
+
+
+jeu = GUI()
+jeu.paramWindow()
+jeu.afficherMain()
+
+
+# print("Bonjour et bienvenu dans ce programme modélsant un pendu")
+# print()
+# print()
+# mot_a_deviner = Mot()
