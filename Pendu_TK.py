@@ -7,10 +7,10 @@
 # - 
 
 import random
-from tkinter import Tk, Label, Button
+from tkinter import Tk, Label, Button, Entry
 
 
-class Mot:
+class Mot():
     def __init__(self):
         with open("Dico.txt","r",encoding="latin-1") as Dico :
             liste = Dico.readlines()
@@ -28,7 +28,7 @@ class Mot:
 
     def play(self):
         while self.__winning:
-            self.__winning = self.mot_cache()
+            self.__winning = self.motCache()
             if not self.__winning:
                 break
             self.proposition()
@@ -45,30 +45,30 @@ class Mot:
             else:
                 print("Je n'ai pas compris votre demande, veuillez réessayer.")
 
-    def mot_cache(self):
+    def motCache(self):
         cache = ''
         for lettre in self.__ortho:
             if lettre in self.__essais or lettre == '-' or lettre == ' ' or lettre == "'":
-                print(lettre, end='')
+                print(' ' + lettre, end='')
                 cache += lettre
             else:
-                print("_", end='')
+                print(" _", end='')
                 cache += "_"
-        print()
-        print()
-        print(self.__essais)
+        # print()
+        # print()
+        # print(self.__essais)
         if cache == self.__ortho:
             print("Bravo, tu as gagné")
-            return False
+            return (False, cache, self.__essais)
         else:
-            return True
+            return (True, cache, self.__essais)
 
     def proposition(self):
-        print("trouve une lettre du mot")
+        #print("trouve une lettre du mot")
         lettre = input()
-        print()
+        #print()
         if lettre in self.__essais:
-            print("Vous avez déja proposé cette lettre. Veuillez réessayer.")
+            # print("Vous avez déja proposé cette lettre. Veuillez réessayer.")
             self.proposition()
         if lettre not in self.__essais:
             self.__essais.append(lettre)
@@ -166,6 +166,8 @@ class GUI(Mot):
         self.__mainSize = "400x300"
         self.__gameSize = "200x100"
         self.__replaySize = "500x500"
+        self.__winning = True
+        self.__essais = []
 
     def playMain(self):
         self.__main = Tk()
@@ -179,19 +181,50 @@ class GUI(Mot):
         
         self.__main.mainloop()
     
-    # def playGame(self):
-        # tryButton = Button(self.__game, text = "Proposer", fg = "green", command = "FONCTION") # une fonction à appeler qui fera le jeu
+    def playGame(self,mot):
+        self.__game = Tk()
+        self.__game.geometry(self.__gameSize)
+        while self.__winning:
+            self.__winning,self.__cache,self.__essais = mot.motCache()
+            motTiret = Label(self.__game, text = self.__cache)
+            motTiret.pack()
+            if not self.__winning:
+                break
+            lettre = Entry(self.__game, fg ="black")
+            while True:
+                if lenght(lettre) == 1:
+                    self.__essais.append(lettre)
+                    
+                else:
+                    errorMsg = Label(self.__game, text ="Vous ne devez entrer qu'une seule lettre")
+                    errorMsg.pack()
+            
+
+
+
+
+
+
+
+
+
+
+
+        tryButton = Button(self.__game, text = "Proposer", fg = "green")# command = "FONCTION") # une fonction à appeler qui fera le jeu
+        tryButton.pack()
 
     def playReplay(self):
         self.__replay = Tk()
-        buttonQuit3 = Button(self.__replay, text = "Quitter", fg = "red", command = self.__replay.destroy)
-        buttonQuit3.pack()
+        self.__replay.geometry(self.__replaySize)
         replayButton = Button(self.__replay, text = "rejouer") #command = self.playGame) à faire apres que la fonction jeu soit ok
         replayButton.pack()
+        buttonQuit3 = Button(self.__replay, text = "Quitter", fg = "red", command = self.__replay.destroy)
+        buttonQuit3.pack()
+        
         self.__replay.mainloop()
 
 
-
+motADeviner = Mot()
 jeu = GUI()
 jeu.playMain()
 
@@ -199,4 +232,3 @@ jeu.playMain()
 # print("Bonjour et bienvenu dans ce programme modélsant un pendu")
 # print()
 # print()
-# mot_a_deviner = Mot()
