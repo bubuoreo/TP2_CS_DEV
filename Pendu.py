@@ -1,27 +1,25 @@
 # BURLOT Alexandre
 # GAUD Romain
 # 01/12/2020
-# subject : Faire un pendu sur console avec un choix de mot dans un fichier.
+# subject : Faire un pendu sur console avec un choix de mot dans un fichier. 8 fautes max.
 # TODO :
 
-# -*- coding: latin-1 -*-
 import random
 
 class Mot:
     def __init__(self):
         with open("Dico.txt","r") as Dico :
-            liste = Dico.readlines()
-            i = random.randint(0,len(liste)-1)
-            mot = liste[i]
-            mot = mot.rstrip("\n")
-        mot = mot.lower()
-        self.__ortho = mot
-        self.__taille = len(self.__ortho)
-        self.__essais = []
-        self.__fautes = 0
-        self.__winning = True
-        self.__essais.append(self.__ortho[0])
-        self.play()
+            liste = Dico.readlines() # Lit le dictionnaire et place les lignes dans une liste
+            i = random.randint(0,len(liste)-1) # fait un random
+            mot = liste[i] # choisi le mot
+            mot = mot.rstrip("\n") # enleve le passage à la ligne sur les éléments de la liste
+        mot = mot.lower() # met en minuscule
+        self.__ortho = mot # stocke le mot en clair
+        self.__essais = [] # liste des essais
+        self.__fautes = 0 # Nombre de fautes
+        self.__winning = True # confirme que le jeu continu car nous sommes en train de gagner
+        self.__essais.append(self.__ortho[0]) # Ajout de la première lettre du mot dans la liste des essaies 
+        self.play() # appelle la fonction play 
 
     def play(self):
         while self.__winning:
