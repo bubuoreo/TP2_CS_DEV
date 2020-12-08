@@ -24,7 +24,7 @@ class Mot:
         self.__fautes = 0
         self.__winning = True
         self.__essais.append(self.__ortho[0])
-        self.play()
+        # self.play()
 
     def play(self):
         while self.__winning:
@@ -169,29 +169,31 @@ class GUI(Mot):
 
     def playMain(self):
         self.__main = Tk()
-        buttonQuit1 = Button(self.__main, text = "Quitter", fg = "red", command = self.__main.destroy)
-        buttonQuit1.pack()
-        buttonPlay = Button(self.__main, text="Jouer", command = self.playGame()) # une fonction à appeler qui LANCERA le jeu
-        buttonPlay.pack()
+        self.__main.geometry(self.__mainSize)
         welcomeLabel = Label(self.__main,text = "Bonjour et bienvenu dans un jeu de pendu", fg = "blue")
         welcomeLabel.pack()
+        buttonQuit1 = Button(self.__main, text = "Quitter", fg = "red", command = self.__main.destroy)
+        buttonQuit1.pack()
+        buttonPlay = Button(self.__main, text="Jouer", command = lambda:[self.__main.destroy(),self.playReplay(),]) # Changer cette fct par la fct jeu
+        buttonPlay.pack()
+        
+        self.__main.mainloop()
     
     # def playGame(self):
         # tryButton = Button(self.__game, text = "Proposer", fg = "green", command = "FONCTION") # une fonction à appeler qui fera le jeu
-
 
     def playReplay(self):
         self.__replay = Tk()
         buttonQuit3 = Button(self.__replay, text = "Quitter", fg = "red", command = self.__replay.destroy)
         buttonQuit3.pack()
-        replayButton = Button(self.__replay, text = "rejouer", command = self.playGame)
+        replayButton = Button(self.__replay, text = "rejouer") #command = self.playGame) à faire apres que la fonction jeu soit ok
         replayButton.pack()
+        self.__replay.mainloop()
 
 
 
 jeu = GUI()
-jeu.paramWindow()
-jeu.afficherMain()
+jeu.playMain()
 
 
 # print("Bonjour et bienvenu dans ce programme modélsant un pendu")
