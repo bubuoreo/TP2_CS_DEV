@@ -210,6 +210,7 @@ class GUI(Mot):
 
 
     def playGame(self):
+        while self.__winning:
         self.__game = Tk()
         self.__game.geometry(self.__gameSize)
         
