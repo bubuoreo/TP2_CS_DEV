@@ -211,34 +211,34 @@ class GUI(Mot):
 
     def playGame(self):
         while self.__winning:
-        self.__game = Tk()
-        self.__game.geometry(self.__gameSize)
-        
-        self.__winning,self.__cache = self.__word.motCache()
-        self.__essais = self.__word.getEssais()
-        motTiret = Label(self.__game, text = self.__cache)
-        motTiret['text'] = self.__cache
-        motTiret.pack()
-        if not self.__winning:
-            victoryMsg = Label(self.__game, text = "Bravo vous avez gagné")
-            victoryMsg.pack()
+            self.__game = Tk()
+            self.__game.geometry(self.__gameSize)
+            
+            self.__winning,self.__cache = self.__word.motCache()
+            self.__essais = self.__word.getEssais()
+            motTiret = Label(self.__game, text = self.__cache)
+            motTiret['text'] = self.__cache
+            motTiret.pack()
+            if not self.__winning:
+                victoryMsg = Label(self.__game, text = "Bravo vous avez gagné")
+                victoryMsg.pack()
 
-        self.__champ1 = Entry(self.__game, text = "coucou", fg ="black")
-        self.__champ1.pack()
-        tryButton = Button(self.__game, text = "Proposer", fg = "green", command = self.Verification)
-        tryButton.pack()
-        
-        listeMots = Label(self.__game,text = self.__essais)
-        listeMots.pack()
-        if self.__fautes == 8:
-            losingMsg = Label(self.__game, text = "Vous avez perdu")
-            losingMsg.pack()
-        
-        replayButton = Button(self.__game, text = "rejouer", command = lambda:[self.__game.destroy(),self.playGame()])
-        replayButton.pack()
-        buttonQuit3 = Button(self.__game, text = "Quitter", fg = "red", command = self.__game.destroy)
-        buttonQuit3.pack()
-        self.__game.mainloop()
+            self.__champ1 = Entry(self.__game, text = "coucou", fg ="black")
+            self.__champ1.pack()
+            tryButton = Button(self.__game, text = "Proposer", fg = "green", command = self.Verification)
+            tryButton.pack()
+            
+            listeMots = Label(self.__game,text = self.__essais)
+            listeMots.pack()
+            if self.__fautes == 8:
+                losingMsg = Label(self.__game, text = "Vous avez perdu")
+                losingMsg.pack()
+            
+            replayButton = Button(self.__game, text = "rejouer", command = lambda:[self.__game.destroy(),self.playGame()])
+            replayButton.pack()
+            buttonQuit3 = Button(self.__game, text = "Quitter", fg = "red", command = self.__game.destroy)
+            buttonQuit3.pack()
+            self.__game.mainloop()
 
 jeu = GUI()
 jeu.playMain()
