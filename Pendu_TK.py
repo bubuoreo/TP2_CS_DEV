@@ -4,7 +4,10 @@
 # subject : Faire un pendu ave une interface graphique Tkinter et un choix de mot dans un fichier.
 # TODO : 
 # - interface graphique avec Tkinter
-# - 
+# Problèmes
+# - le dessin n'apparait pas, pas eu assez de temps
+# - le mot et la liste des essayes ne se mettent pas à jours
+# - si depuis la fenetre on clique sur rejouer, la fenetre se met a jour.
 
 import random
 import time as time
@@ -194,18 +197,14 @@ class GUI(Mot):
     
     def Verification(self):
         if self.__champ1.get() in self.__auth:
-            print('ok')
             if self.__champ1.get() not in self.__essais:
-                print('oui')
                 self.__essais.append(self.__champ1.get())
             if self.__champ1.get() in self.__essais:
                 errorMsg = Label(self.__game, text = "Vous ne devez entrer qu'une seule lettre")
             if self.__champ1.get() not in self.__ortho:
-                print('faux')
                 self.__fautes += 1
             
         else:
-            print('boucle')
             errorMsg = Label(self.__game, text = "Vous ne devez entrer qu'une seule lettre")
             errorMsg.pack()
 
@@ -234,7 +233,7 @@ class GUI(Mot):
             losingMsg = Label(self.__game, text = "Vous avez perdu")
             losingMsg.pack()
         
-        replayButton = Button(self.__game, text = "rejouer", command = lambda:[self.playGame(),self.__game.destroy()])
+        replayButton = Button(self.__game, text = "rejouer", command = lambda:[self.__game.destroy(),self.playGame()])
         replayButton.pack()
         buttonQuit3 = Button(self.__game, text = "Quitter", fg = "red", command = self.__game.destroy)
         buttonQuit3.pack()
