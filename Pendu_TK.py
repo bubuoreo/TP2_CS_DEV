@@ -7,6 +7,7 @@
 # - 
 
 import random
+import time as time
 from tkinter import Tk, Label, Button, Entry, StringVar
 
 
@@ -45,6 +46,12 @@ class Mot():
             else:
                 print("Je n'ai pas compris votre demande, veuillez réessayer.")
 
+    def getOrtho(self):
+        return self.__ortho
+    
+    def getEssais(self):
+        return self.__essais
+
     def motCache(self):
         cache = ''
         for lettre in self.__ortho:
@@ -59,9 +66,9 @@ class Mot():
         # print(self.__essais)
         if cache == self.__ortho:
             print("Bravo, tu as gagné")
-            return (False, cache, self.__essais)
+            return (False, cache)
         else:
-            return (True, cache, self.__essais)
+            return (True, cache)
 
     def proposition(self):
         #print("trouve une lettre du mot")
@@ -164,13 +171,12 @@ class Mot():
 
 class GUI(Mot):
     def __init__(self):
-        word = Mot()
+        self.__word = Mot()
         self.__mainSize = "400x300"
         self.__gameSize = "400x300"
-        self.__motADeviner = word
-        self.__ortho = #mot en clair
+        self.__ortho = self.__word.getOrtho()
         self.__winning = True
-        self.__essais = []
+        self.__essais = self.__word.getEssais()
         self.__fautes = 0
         self.__auth = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z','é','è','î','ê','û','ë','ô',]
 
@@ -191,10 +197,13 @@ class GUI(Mot):
             print('ok')
             if self.__champ1.get() not in self.__essais:
                 print('oui')
-                self.__essais.append(self.__champ1)
+                self.__essais.append(self.__champ1.get())
+            if self.__champ1.get() in self.__essais:
+                errorMsg = Label(self.__game, text = "Vous ne devez entrer qu'une seule lettre")
             if self.__champ1.get() not in self.__ortho:
                 print('faux')
                 self.__fautes += 1
+            
         else:
             print('boucle')
             errorMsg = Label(self.__game, text = "Vous ne devez entrer qu'une seule lettre")
@@ -205,11 +214,11 @@ class GUI(Mot):
         self.__game = Tk()
         self.__game.geometry(self.__gameSize)
         
-        self.__winning,self.__cache,self.__essais = self.__motADeviner.motCache()
-        print('1')
+        self.__winning,self.__cache = self.__word.motCache()
+        self.__essais = self.__word.getEssais()
         motTiret = Label(self.__game, text = self.__cache)
+        motTiret['text'] = self.__cache
         motTiret.pack()
-        print('2')
         if not self.__winning:
             victoryMsg = Label(self.__game, text = "Bravo vous avez gagné")
             victoryMsg.pack()
@@ -225,10 +234,7 @@ class GUI(Mot):
             losingMsg = Label(self.__game, text = "Vous avez perdu")
             losingMsg.pack()
         
-
-            
-        
-        replayButton = Button(self.__game, text = "rejouer", command = self.playGame)
+        replayButton = Button(self.__game, text = "rejouer", command = lambda:[self.playGame(),self.__game.destroy()])
         replayButton.pack()
         buttonQuit3 = Button(self.__game, text = "Quitter", fg = "red", command = self.__game.destroy)
         buttonQuit3.pack()
