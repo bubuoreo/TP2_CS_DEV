@@ -161,11 +161,14 @@ class Mot():
         return True
 
 
+
 class GUI(Mot):
     def __init__(self):
+        word = Mot()
         self.__mainSize = "400x300"
         self.__gameSize = "400x300"
-        self.__motADeviner = Mot()
+        self.__motADeviner = word
+        self.__ortho = #mot en clair
         self.__winning = True
         self.__essais = []
         self.__fautes = 0
@@ -184,12 +187,16 @@ class GUI(Mot):
         self.__main.mainloop()
     
     def Verification(self):
-        if self.__champ1 in self.__auth:
-            if self.__champ1 not in self.__essais:
+        if self.__champ1.get() in self.__auth:
+            print('ok')
+            if self.__champ1.get() not in self.__essais:
+                print('oui')
                 self.__essais.append(self.__champ1)
-            if self.__champ1 not in self.__motADeviner.__ortho:
+            if self.__champ1.get() not in self.__ortho:
+                print('faux')
                 self.__fautes += 1
         else:
+            print('boucle')
             errorMsg = Label(self.__game, text = "Vous ne devez entrer qu'une seule lettre")
             errorMsg.pack()
 
@@ -198,37 +205,34 @@ class GUI(Mot):
         self.__game = Tk()
         self.__game.geometry(self.__gameSize)
         
-        while self.__winning:
-            self.__winning,self.__cache,self.__essais = self.__motADeviner.motCache()
-            print('1')
-            motTiret = Label(self.__game, text = self.__cache)
-            motTiret.pack()
-            print('2')
-            if not self.__winning:
-                victoryMsg = Label(self.__game, text = "Bravo vous avez gagné")
-                victoryMsg.pack()
-                break
+        self.__winning,self.__cache,self.__essais = self.__motADeviner.motCache()
+        print('1')
+        motTiret = Label(self.__game, text = self.__cache)
+        motTiret.pack()
+        print('2')
+        if not self.__winning:
+            victoryMsg = Label(self.__game, text = "Bravo vous avez gagné")
+            victoryMsg.pack()
 
-            self.__champ1 = Entry(self.__game, fg ="black")
-            self.__champ1.pack()
-            tryButton = Button(self.__game, text = "Proposer", fg = "green", command = self.Verification())
-            tryButton.pack()
-            
-            listeMots = Label(self.__game,text = self.__essais)
-            listeMots.pack()
-            if self.__fautes == 8:
-                losingMsg = Label(self.__game, text = "vous avez perdu")
-                losingMsg.pack()
-                break
-            self.__game.mainloop()
+        self.__champ1 = Entry(self.__game, text = "coucou", fg ="black")
+        self.__champ1.pack()
+        tryButton = Button(self.__game, text = "Proposer", fg = "green", command = self.Verification)
+        tryButton.pack()
+        
+        listeMots = Label(self.__game,text = self.__essais)
+        listeMots.pack()
+        if self.__fautes == 8:
+            losingMsg = Label(self.__game, text = "Vous avez perdu")
+            losingMsg.pack()
+        
 
             
         
         replayButton = Button(self.__game, text = "rejouer", command = self.playGame)
         replayButton.pack()
-        buttonQuit3 = Button(self.__game, text = "Quitter", fg = "red", command = self.playGame)
+        buttonQuit3 = Button(self.__game, text = "Quitter", fg = "red", command = self.__game.destroy)
         buttonQuit3.pack()
-
+        self.__game.mainloop()
 
 jeu = GUI()
 jeu.playMain()
